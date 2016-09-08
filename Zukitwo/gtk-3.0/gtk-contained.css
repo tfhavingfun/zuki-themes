@@ -3632,7 +3632,7 @@ decoration {
 
 headerbar.default-decoration button.titlebutton,
 .titlebar.default-decoration button.titlebutton {
-  padding: 0 4px;
+  padding: 0 1px;
   min-width: 0;
   min-height: 20px;
   margin: 0; }

@@ -28,7 +28,7 @@ $panel-corner-radius: 0px;
 
 /* GLOBALS */
 $font-size: 10;
-$font-family: Roboto, Sans-Serif;
+$font-family: Ubuntu, Roboto, Sans-Serif;
 $_bubble_bg_color: opacify($osd_bg_color,0.25);
 $_bubble_fg_color: $osd_fg_color;
 $_bubble_borders_color: transparentize($osd_fg_color,0.8);
@@ -687,19 +687,19 @@ StScrollBar {
     font-weight: bold;
     color: white;
 
-    //.app-menu-icon {
-    //  -st-icon-style: symbolic;
-    //  margin-left: 4px;
-    //  margin-right: 4px;
-      //dimensions of the icon are hardcoded
-    //}
-
     .app-menu-icon {
-      width: 0;
-      height: 0;
-      margin-left: 0px; // FIXME: Want to set these two at 4px, but only the left margin is working.
-      margin-right: 0px;
+      -st-icon-style: regular;
+      margin-left: 4px;
+      margin-right: 4px;
+      //dimensions of the icon are hardcoded
     }
+
+    //.app-menu-icon {
+    //  width: 0;
+    //  height: 0;
+    //  margin-left: 0px; // FIXME: Want to set these two at 4px, but only the left margin is working.
+    //  margin-right: 0px;
+    //}
 
     &:hover {
       color: white;

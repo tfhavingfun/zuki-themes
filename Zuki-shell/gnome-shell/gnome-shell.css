@@ -19,7 +19,7 @@
  */
 /* GLOBALS */
 stage {
-  font-family: Roboto, Sans-Serif;
+  font-family: Ubuntu, Roboto, Sans-Serif;
   font-size: 10pt;
   color: #dee2e5; }
 
@@ -630,10 +630,9 @@ StScrollBar {
     font-weight: bold;
     color: white; }
     #panel .panel-button .app-menu-icon {
-      width: 0;
-      height: 0;
-      margin-left: 0px;
-      margin-right: 0px; }
+      -st-icon-style: regular;
+      margin-left: 4px;
+      margin-right: 4px; }
     #panel .panel-button:hover {
       color: white;
       background-color: rgba(255, 255, 255, 0.1); }
