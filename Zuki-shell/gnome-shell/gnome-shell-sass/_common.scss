@@ -442,6 +442,7 @@ StScrollBar {
 
 .popup-menu {
   min-width: 15em;
+  margin: .5em 0;
 
   .popup-menu-arrow { } //defined globally in the TOP BAR
   .popup-sub-menu {
