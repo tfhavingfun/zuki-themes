@@ -91,6 +91,11 @@ $button_transition: all 200ms $ease-out-quad;
   &:backdrop { // Keep for now or selected backdrop color will behave bad when hovering.
     color: $backdrop_text_color;
     background-color: $backdrop_base_color;
+    &:disabled { color: $backdrop_insensitive_color; }
+  }
+  &:disabled {
+    color: $insensitive_fg_color;
+    background-color: $insensitive_bg_color;
   }
 }
 
@@ -118,7 +123,6 @@ flowbox {
 
   flowboxchild {
     padding: 3px;
-    border-radius: 2px;
 
     &:selected {
       @extend %selected_items;
@@ -126,6 +130,17 @@ flowbox {
       outline-offset: -2px;
     }
   }
+}
+
+.content-view .tile {
+  margin: 2px;
+  background-color: if($variant=='light', transparent, black);
+  border-radius: 0;
+  padding: 0;
+  
+  &:backdrop { background-color: if($variant=='light', transparent, darken($backdrop_base_color,5%)); }
+  &:active, &:selected { background-color: if($variant=='light', transparent, $selected_bg_color); }
+  &:disabled { background-color: if($variant=='light', transparent, $insensitive_bg_color); }
 }
 
 label {
@@ -377,23 +392,10 @@ treeview entry {
 
 // stuff for .needs-attention
 $_dot_color: if($variant=='light', $selected_bg_color,
-                                   lighten($selected_bg_color, 15%));
+                                   lighten($selected_bg_color,15%));
 @keyframes needs_attention {
-  from {
-    background-image: -gtk-gradient(radial,
-                                    center center, 0,
-                                    center center, 0.01,
-                                    to($_dot_color),
-                                    to(transparent));
-  }
-
-  to {
-    background-image: -gtk-gradient(radial,
-                                    center center, 0,
-                                    center center, 0.5,
-                                    to($selected_bg_color),
-                                    to(transparent));
-  }
+  from { background-image: radial-gradient(farthest-side, $_dot_color 0%, transparentize($_dot_color, 1) 0%); }
+  to { background-image: radial-gradient(farthest-side, $_dot_color 95%, transparentize($_dot_color, 1)); }
 }
 
 %button,
@@ -687,16 +689,8 @@ button {
   animation: needs_attention 150ms ease-in;
   $_dot_shadow: _text_shadow_color();
   $_dot_shadow_r: if($variant=='light',0.5,0.45);
-  background-image: -gtk-gradient(radial,
-                                  center center, 0,
-                                  center center, 0.5,
-                                  to($_dot_color),
-                                  to(transparent)),
-                    -gtk-gradient(radial,
-                                  center center, 0,
-                                  center center, $_dot_shadow_r,
-                                  to($_dot_shadow),
-                                  to(transparent));
+  background-image: radial-gradient(farthest-side, $_dot_color 96%, transparentize($_dot_color,1 )),
+                    radial-gradient(farthest-side, $_dot_shadow 95%, transparentize($_dot_shadow, 1));
   background-size: 6px 6px, 6px 6px;
   background-repeat: no-repeat;
 
@@ -748,43 +742,33 @@ $btn-shadow-middle:
     0 1px $shadow-color,
     0px 0 $shadow-color,
     0 -1px $shadow-color,
-    inset 0px 0 $inset-color, 
-    inset 0 1px $inset-color, 
-    inset 0px 0 $inset-color, 
+    inset 0px 0 $inset-color,
+    inset 0 1px $inset-color,
+    inset 0px 0 $inset-color,
     inset 0 -1px $inset-color;
-$btn-shadow-middle-vert: 
-    1px 0 $shadow-color,
-    0 0px $shadow-color,
-    1px 0 $shadow-color,
-    0 0px $shadow-color,
-    inset 1px 0 $inset-color, 
-    inset 0 0px $inset-color, 
-    inset -1px 0 $inset-color, 
-    inset 0 0px $inset-color;
-$btn-shadow-left: 
+$btn-shadow-left:
     0px 0 $shadow-color,
     0 1px $shadow-color,
     -1px 0 $shadow-color,
     0 -1px $shadow-color,
-    inset 1px 0 $inset-color, 
-    inset 0 1px $inset-color, 
-    inset 0px 0 $inset-color, 
+    inset 1px 0 $inset-color,
+    inset 0 1px $inset-color,
+    inset 0px 0 $inset-color,
     inset 0 -1px $inset-color;
-$btn-shadow-right: 
+$btn-shadow-right:
     1px 0 $shadow-color,
     0 1px $shadow-color,
     0px 0 $shadow-color,
     0 -1px $shadow-color,
-    inset 0px 0 $inset-color, 
-    inset 0 1px $inset-color, 
-    inset -1px 0 $inset-color, 
+    inset 0px 0 $inset-color,
+    inset 0 1px $inset-color,
+    inset -1px 0 $inset-color,
     inset 0 -1px $inset-color;
 
 %linked_middle {
   border-radius: 0;
   border-right-style: none;
-  border-right-width: 0;
-  border-left-width: 0;
+  border-left-style: none;
   box-shadow: $btn-shadow-middle;
   // FIXME: Figure out how this looks on colored titlebars.
   &:active { @include button(active); }
@@ -798,8 +782,8 @@ $btn-shadow-right:
   &:first-child {
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
-    border-left-width: 1px;
-    border-right-width: 0;
+    border-left-style: solid;
+    border-right-style: none;
     box-shadow: $btn-shadow-left;
     &:active { @include button(active); }
     &:checked { @include button(active); }
@@ -809,9 +793,8 @@ $btn-shadow-right:
   &:last-child {
     border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
+    border-left-style: none;
     border-right-style: solid;
-    border-left-width: 0;
-    border-right-width: 1px;
     box-shadow: $btn-shadow-right;
     &:active { @include button(active); }
     &:checked { @include button(active); }
@@ -832,19 +815,21 @@ $btn-shadow-right:
 %linked_vertical_middle {
   border-style: solid solid none solid;
   border-radius: 0;
-  box-shadow: $btn-shadow-middle-vert;
+  box-shadow: none;
 }
 
-%linked_vertical{
+%linked_vertical {
   @extend %linked_vertical_middle;
   &:first-child {
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
+    box-shadow: none;
   }
   &:last-child {
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
-    border-style: solid;
+    border-bottom-style: solid;
+    box-shadow: none;
   }
   &:only-child {
     border-radius: 3px;
@@ -1407,18 +1392,25 @@ headerbar {
   border-top-right-radius: 7px;
 }
 
-.background:not(.tiled):not(.maximized) .titlebar {
+.background:not(.tiled):not(.maximized):not(.solid-csd) .titlebar {
   &:backdrop, & {
     border-top-left-radius: 7px;
     border-top-right-radius: 7px;
   }
 }
 
-headerbar {
-  window:not(.tiled):not(.maximized) separator:first-child + &, // tackles the paned container case
-  window:not(.tiled):not(.maximized) &:first-child { &:backdrop, & { border-top-left-radius: 7px; }}
-
-  window:not(.tiled):not(.maximized) &:last-child { &:backdrop, & { border-top-right-radius: 7px; }}
+headerbar { // headerbar border rounding
+  window:not(.tiled):not(.maximized):not(.solid-csd) separator:first-child + &, // tackles the paned container case
+  window:not(.tiled):not(.maximized):not(.solid-csd) &:first-child { &:backdrop, & { border-top-left-radius: 7px; }}
+  window:not(.tiled):not(.maximized):not(.solid-csd) &:last-child { &:backdrop, & { border-top-right-radius: 7px; }}
+  window:not(.tiled):not(.maximized):not(.solid-csd) stack & { // tackles the stacked headerbars case
+    &:first-child, &:last-child {
+      &:backdrop, & {
+        border-top-left-radius: 7px;
+        border-top-right-radius: 7px;
+      }
+    }
+  }
 }
 
 .titlebar:not(headerbar) {
@@ -1853,81 +1845,65 @@ notebook {
 
     tabs { 
       margin: -1px;
-      min-height: 28px;
+      //min-height: 28px;
     }
 
-    &.top {
-      border-bottom-style: solid;
-      > tabs {
-        margin-bottom: -2px;
-        > tab {
-          &:hover { box-shadow: none; }
-          &:checked, &:checked:hover { 
-            box-shadow: inset 1px 0 $borders_color, inset -1px 0 $borders_color, inset 0 1px $borders_color;
-            background-color: $base_color;
-            border-width: 0;
-            border-radius: 4px 4px 0 0;
+    @each $_pos in (top), (right), (bottom), (left) {
+    
+      &.#{$_pos} {
+        @if $_pos==top { border-bottom-style: solid; }
+        @else if $_pos==bottom { border-top-style: solid; }
+        @else if $_pos==right { border-left-style: solid; }
+        @else if $_pos==left { border-right-style: solid; }
+        > tabs {
+          @if $_pos==top { margin-bottom: -2px; }
+          @else if $_pos==bottom { margin-top: -2px; }
+          @else if $_pos==right { margin-left: -2px; }
+          @else if $_pos==left { margin-right: -2px; }
+          > tab {
+            &:hover { box-shadow: none; }
+            &:checked, &:checked:hover {
+              background-color: $base_color;
+              border-width: 0;
+              @if $_pos==top {
+                box-shadow: inset 1px 0 $borders_color, inset -1px 0 $borders_color, inset 0 1px $borders_color;
+                border-radius: 4px 4px 0 0;
+              }
+              @else if $_pos==bottom {
+                box-shadow: inset 1px 0 $borders_color, inset -1px 0 $borders_color, inset 0 -1px $borders_color;
+                border-radius: 0 0 4px 4px;
+              }
+              @else if $_pos==left {
+                box-shadow: inset 0 1px $borders_color, inset 0 -1px $borders_color, inset 0 1px $borders_color;
+                border-radius: 4px 0 0 4px;
+              }
+              @else if $_pos==right {
+                box-shadow: inset 0 1px $borders_color, inset 0 -1px $borders_color, inset 0 -1px $borders_color;
+                border-radius: 0 4px 4px 0;
+              }
+            }
           }
         }
       }
-    }
 
-    &.bottom {
-      border-top-style: solid;
-      > tabs {
-        margin-top: -2px;
-        > tab {
-          &:hover { box-shadow: inset 0 3px $borders_color; }
-          &:checked, &:checked:hover { 
-            box-shadow: inset 1px 0 $borders_color, inset -1px 0 $borders_color, inset 0 -1px $borders_color;
-            background-color: $base_color;
-            border-width: 0;
-            border-radius: 0 0 4px 4px;
-          }
+      &.#{$_pos} > tabs > arrow {
+        @if $_pos==top { 
+          @extend %notebook_vert_arrows;
+          border-top-style: none;
+        }
+        @else if $_pos==bottom {
+          @extend %notebook_vert_arrows;
+          border-bottom-style: none;      
+        }
+        @else if $_pos==left {
+          @extend %notebook_horz_arrows;
+          border-left-style: none;
+        }
+        @else if $_pos==right {
+          @extend %notebook_horz_arrows;
+          border-right-style: none;
         }
       }
-    }
-
-    &.left {
-      border-right-style: solid;
-      > tabs {
-        margin-right: -2px;
-        > tab {
-          &:hover { box-shadow: inset -3px 0 $borders_color; }
-          &:checked, &:checked:hover { 
-            box-shadow: inset 0 1px $borders_color, inset 0 -1px $borders_color, inset 0 1px $borders_color;
-            background-color: $base_color;
-            border-width: 0;
-          }
-        }
-      }
-    }
-
-    &.right {
-      border-left-style: solid;
-      > tabs {
-        margin-left: -2px;
-        > tab {
-          &:hover { box-shadow: inset 3px 0 $borders_color; }
-          &:checked, &:checked:hover { 
-            box-shadow: inset 0 1px $borders_color, inset 0 -1px $borders_color, inset 0 -1px $borders_color;
-            background-color: $base_color;
-            border-width: 0;
-          }
-        }
-      }
-    }
-
-    &.top > tabs > arrow {
-      @extend %notebook_vert_arrows;
-
-      border-top-style: none;
-    }
-
-    &.bottom > tabs > arrow {
-      @extend %notebook_vert_arrows;
-
-      border-bottom-style: none;
     }
 
     @at-root %notebook_vert_arrows {
@@ -1939,18 +1915,6 @@ notebook {
       &.down { -gtk-icon-source: -gtk-icontheme('pan-start-symbolic'); }
 
       &.up { -gtk-icon-source: -gtk-icontheme('pan-end-symbolic'); }
-    }
-
-    &.left > tabs > arrow {
-      @extend %notebook_horz_arrows;
-
-      border-left-style: none;
-    }
-
-    &.right > tabs > arrow {
-      @extend %notebook_horz_arrows;
-
-      border-right-style: none;
     }
 
     @at-root %notebook_horz_arrows {
@@ -2327,12 +2291,12 @@ switch {
     background-image: -gtk-scaled(url("assets/switch#{$l}#{$asset_suffix}.png"),url("assets/switch#{$l}#{$asset_suffix}@2.png"));
   }
 
-  row:#{selected switch}#{$k},
-  #{infobar switch}#{$k} {
-    background-image: -gtk-scaled(url("assets/switch#{$l}-selected.png"),url("assets/switch#{$l}-selected@2.png"));
-  }
+// FIXME: Create assets
+//  row:#{selected switch}#{$k},
+//  #{infobar switch}#{$k} {
+//    background-image: -gtk-scaled(url("assets/switch#{$l}-selected.png"),url("assets/switch#{$l}-selected@2.png"));
+//  }
 
-// FIXME: Create assets.
 //  headerbar switch#{$k},
 //  .primary-toolbar switch#{$k} {
 //    background-image: -gtk-scaled(url("assets/switch#{$l}-header.png"),url("assets/switch#{$l}-header@2.png"));
@@ -2387,10 +2351,17 @@ switch {
 // Selectionmode
 @each $s,$as in ('','-selectionmode'),
                   (':checked', '-checked-selectionmode') {
-  .view.content-view.check#{$s}:not(list) {
+  .view.content-view.check#{$s}:not(list),
+  .content-view .tile check#{$s}:not(list) {
     -gtk-icon-source: -gtk-scaled(url("assets/checkbox#{$as}#{$asset_suffix}.png"),
                                     url("assets/checkbox#{$as}#{$asset_suffix}@2.png"));
     background-color: transparent;
+    min-width: 40px;
+    min-height: 40px;
+    background-image: none;
+    transition: none;
+    box-shadow: none;
+    border-width: 0;
   }
 }
 
@@ -2891,6 +2862,8 @@ progressbar {
       border-radius: 0;
     }
   }
+
+  trough.empty progress { all: unset; } // makes the progress indicator disappear, when the fraction is 0
 }
 
 /*************
@@ -2975,6 +2948,8 @@ frame > border,
 
   &:backdrop { border-color: $backdrop_borders_color; }
 }
+
+frame.flat > border { border-style: none; }
 
 actionbar > revealer >  box {
   padding: 6px;
@@ -3627,7 +3602,7 @@ colorchooser .popover.osd { border-radius: 5px; }
 
   &:hover { -gtk-icon-effect: highlight; }
 
-  rubberband { @extend rubberband; }
+  rubberband, .rubberband { @extend rubberband; }
 }
 
 .scale-popup {

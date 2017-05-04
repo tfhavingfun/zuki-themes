@@ -429,6 +429,15 @@
     $_big_gradient_color: $fg_color;
   }
 
+  // FIXME: Shouldn't have to use gtk-gradient for this to look right.
+  //$_small_gradient: radial-gradient(farthest-side at $p,
+  //                                  $_small_gradient_color 85%,
+  //                                  transparentize($_small_gradient_color, 1));
+
+  //$_big_gradient: radial-gradient(farthest-side at $p,
+  //                                $_big_gradient_color,
+  //                                transparentize($_big_gradient_color, 1));
+
   $_small_gradient: -gtk-gradient(radial,
                                   $_position, 0,
                                   $_position, 0.5,

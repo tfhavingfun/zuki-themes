@@ -422,6 +422,77 @@ StScrollBar {
   width: 48px;
   height: 48px; }
 
+/* Audio selection dialog */
+.audio-device-selection-dialog {
+  spacing: 30px; }
+
+.audio-selection-content {
+  spacing: 20px;
+  padding: 24px; }
+
+.audio-selection-title {
+  font-weight: bold;
+  text-align: center; }
+
+.audio-selection-box {
+  spacing: 20px; }
+
+.audio-selection-device {
+  border: 1px solid rgba(238, 238, 236, 0.2);
+  border-radius: 12px; }
+  .audio-selection-device:active, .audio-selection-device:hover, .audio-selection-device:focus {
+    background-color: #215d9c; }
+
+.audio-selection-device-box {
+  padding: 20px;
+  spacing: 20px; }
+
+.audio-selection-device-icon {
+  icon-size: 64px; }
+
+/* Access Dialog */
+.access-dialog {
+  spacing: 30px; }
+
+.access-dialog-main-layout {
+  padding: 12px 20px 0;
+  spacing: 12px; }
+
+.access-dialog-content {
+  max-width: 28em;
+  spacing: 20px; }
+
+.access-dialog-icon {
+  min-width: 48px;
+  icon-size: 48px; }
+
+.access-dialog-title {
+  font-weight: bold; }
+
+.access-dialog-subtitle {
+  color: #999999;
+  font-weight: bold; }
+
+/* Geolocation Dialog */
+.geolocation-dialog {
+  spacing: 30px; }
+
+.geolocation-dialog-main-layout {
+  spacing: 12px; }
+
+.geolocation-dialog-content {
+  spacing: 20px; }
+
+.geolocation-dialog-icon {
+  icon-size: 48px; }
+
+.geolocation-dialog-title {
+  font-weight: bold; }
+
+.geolocation-dialog-reason {
+  color: #999999;
+  font-weight: bold; }
+
 /* Network Agent Dialog */
 .network-dialog-secret-table {
   spacing-rows: 15px;
@@ -512,6 +583,18 @@ StScrollBar {
     background-color: rgba(11, 12, 13, 0.5);
     color: #eeeeec; }
 
+/* Pad OSD */
+.pad-osd-window {
+  padding: 32px;
+  background-color: rgba(0, 0, 0, 0.8); }
+  .pad-osd-window .pad-osd-title-box {
+    spacing: 12px; }
+  .pad-osd-window .pad-osd-title-menu-box {
+    spacing: 6px; }
+
+.combo-box-label {
+  width: 15em; }
+
 /* App Switcher */
 .switcher-popup {
   padding: 8px;
@@ -553,6 +636,10 @@ StScrollBar {
   font-size: 34pt;
   width: 96px;
   height: 96px; }
+
+/* Window Cycler */
+.cycler-highlight {
+  border: 5px solid #215d9c; }
 
 /* Workspace Switcher */
 .workspace-switcher-group {
@@ -613,7 +700,7 @@ StScrollBar {
     color: transparent;
     width: 0; }
   #panel #panelLeft, #panel #panelCenter {
-    spacing: 4px; }
+    spacing: 0px; }
   #panel .panel-corner {
     -panel-corner-radius: 0px;
     -panel-corner-background-color: black;
@@ -676,9 +763,21 @@ StScrollBar {
 .datemenu-displays-section {
   padding-bottom: 3em; }
 
+.datemenu-displays-box {
+  spacing: 1em; }
+
+.datemenu-calendar-column {
+  border: 0 solid #0d0d0d; }
+  .datemenu-calendar-column:ltr {
+    border-left-width: 1px; }
+  .datemenu-calendar-column:rtl {
+    border-right-width: 1px; }
+
 .datemenu-today-button,
 .world-clocks-button,
-.message-list-section-title {
+.weather-button,
+.message-list-section-title,
+.events-section-title {
   border-radius: 2px;
   padding: .4em; }
 
@@ -691,12 +790,18 @@ StScrollBar {
 .datemenu-today-button:hover, .datemenu-today-button:focus,
 .world-clocks-button:hover,
 .world-clocks-button:focus,
+.weather-button:hover,
+.weather-button:focus,
 .message-list-section-title:hover,
-.message-list-section-title:focus {
+.message-list-section-title:focus,
+.events-section-title:hover,
+.events-section-title:focus {
   background-color: #0d0d0d; }
 .datemenu-today-button:active,
 .world-clocks-button:active,
-.message-list-section-title:active {
+.weather-button:active,
+.message-list-section-title:active,
+.events-section-title:active {
   color: white;
   background-color: #215d9c; }
 
@@ -704,12 +809,17 @@ StScrollBar {
   font-size: 1.5em; }
 
 .world-clocks-header,
-.message-list-section-title {
+.weather-header,
+.message-list-section-title,
+.events-section-title {
   color: #999999;
   font-weight: bold; }
 
 .world-clocks-grid {
   spacing-rows: 0.4em; }
+
+.weather-box {
+  spacing: 0.4em; }
 
 .calendar-month-label {
   color: #f2f2f2;
@@ -746,7 +856,7 @@ StScrollBar {
   border-radius: 2px; }
   .calendar-day-base:hover, .calendar-day-base:focus {
     background-color: #0d0d0d; }
-  .calendar-day-base:active {
+  .calendar-day-base:active, .calendar-day-base:selected {
     color: white;
     background-color: #215d9c;
     border-color: transparent; }
@@ -784,12 +894,18 @@ StScrollBar {
 .message-list {
   width: 31.5em; }
 
+.message-list-clear-button.button {
+  background-color: transparent;
+  margin: 1.5em 1.5em 0; }
+  .message-list-clear-button.button:hover, .message-list-clear-button.button:focus {
+    background-color: #0d0d0d; }
+
 .message-list-sections {
-  spacing: 1.5em; }
+  spacing: 1em; }
 
 .message-list-section,
 .message-list-section-list {
-  spacing: 0.7em; }
+  spacing: 0.4em; }
 
 .message-list-section-title-box {
   spacing: 0.4em; }
@@ -806,37 +922,61 @@ StScrollBar {
   background-color: #999999; }
 
 .message {
-  background-color: #0d0d0d;
   border-radius: 2px; }
   .message:hover, .message:focus {
-    background-color: #262626; }
+    background-color: #0d0d0d; }
 
 .message-icon-bin {
-  padding: 8px 0px 8px 8px; }
+  padding: 10px 3px 10px 10px; }
   .message-icon-bin:rtl {
-    padding: 8px 8px 8px 0px; }
+    padding: 10px 10px 10px 3px; }
 
 .message-icon-bin > StIcon {
-  icon-size: 32px; }
-
-.message-secondary-bin:ltr {
-  padding-left: 8px; }
-.message-secondary-bin:rtl {
-  padding-right: 8px; }
+  color: #cccccc;
+  icon-size: 16px;
+  -st-icon-style: symbolic; }
 
 .message-secondary-bin {
-  color: #999999; }
+  padding: 0 12px; }
+
+.message-secondary-bin > .event-time {
+  color: #999999;
+  font-size: 0.7em;
+  /* HACK: the label should be baseline-aligned with a 1em label,
+           fake this with some bottom padding */
+  padding-bottom: 0.13em; }
 
 .message-secondary-bin > StIcon {
   icon-size: 16px; }
 
 .message-title {
-  font-weight: bold;
-  font-size: 1.1em; }
+  color: #f2f2f2; }
 
 .message-content {
-  padding: 8px;
-  font-size: .9em; }
+  padding: 10px;
+  color: #cccccc; }
+
+.message-media-control {
+  padding: 12px;
+  color: #cccccc; }
+  .message-media-control:last-child:ltr {
+    padding-right: 18px; }
+  .message-media-control:last-child:rtl {
+    padding-left: 18px; }
+  .message-media-control:hover {
+    color: #fff; }
+  .message-media-control:insensitive {
+    color: #999999; }
+
+.media-message-cover-icon {
+  icon-size: 48px !important; }
+  .media-message-cover-icon.fallback {
+    color: #1a1a1a;
+    background-color: #000;
+    border: 2px solid #000;
+    border-radius: 2px;
+    icon-size: 16px;
+    padding: 8px; }
 
 #panel #panelActivities.panel-button > * {
   background-image: url("activities.svg");
@@ -868,7 +1008,8 @@ StScrollBar {
 
 #appMenu {
   spinner-image: url("process-working.svg");
-  spacing: 4px; }
+  spacing: 4px;
+  padding-right: 8px; }
   #appMenu .label-shadow {
     color: transparent; }
 
